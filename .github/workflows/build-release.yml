@@ -38,3 +38,5 @@ jobs:
       with:
         files: |
           target/oprc-cli-${{ env.RELEASE_VERSION }}-runner.jar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

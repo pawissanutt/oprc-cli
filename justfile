@@ -2,15 +2,15 @@
 
 # maven build without tests
 build:
-   mvn -DskipTests package
+   mvnd -DskipTests package
 
 # dependencies tree for compile
 dependencies:
-  mvn dependency:tree
+  ./mvnw dependency:tree
 
 # display updates
 updates:
-  mvn versions:display-dependency-updates
+  ./mvnw versions:display-dependency-updates
 
 
 build-native:

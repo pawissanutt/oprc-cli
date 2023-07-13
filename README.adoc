@@ -1,0 +1,11 @@
+= OPRC-CLI
+
+The commandline interface for Oparaca (aka https://github.com/hpcclab/OaaS[OaaS]). You can install this cli by using https://www.jbang.dev/[jbang] and run the following command
+
+[source,bash]
+----
+jbang app install --name ocli ocli@pawissanutt/oprc-cli
+----
+
+You can check the usage instruction by running `ocli -h`.
+

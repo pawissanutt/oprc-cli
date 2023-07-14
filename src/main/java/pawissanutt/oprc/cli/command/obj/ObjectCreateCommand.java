@@ -27,13 +27,16 @@ public class ObjectCreateCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"-f", "--files"})
     Map<String, File> files;
 
+    @CommandLine.Option(names = "--fb", defaultValue = "new")
+    String fb;
+
     @Inject
     OaasObjectCreator oaasObjectCreator;
 
     @Override
     public Integer call() throws Exception {
         oaasObjectCreator.setOaasMixin(oaasMixin);
-        var res = oaasObjectCreator.createObject(cls, data!=null ? new JsonObject(data):null, files);
+        var res = oaasObjectCreator.createObject2(cls, data!=null ? new JsonObject(data):null, fb, files);
         System.out.println(res);
         return 0;
     }

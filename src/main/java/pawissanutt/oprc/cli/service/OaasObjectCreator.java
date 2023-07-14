@@ -71,6 +71,35 @@ public class OaasObjectCreator {
         return resBody;
     }
 
+    public JsonObject createObject2(String cls,
+                                    JsonObject data,
+                                    String fb,
+                                    Map<String, File> files) {
+        var invUrl = oaasMixin.getInvUrl();
+        var constructBody = JsonObject.of("data", data);
+        if (files!=null) {
+            constructBody.put("keys", files.keySet());
+        }
+        var body = JsonObject.of("cls", cls, "fb", fb, "body", constructBody);
+        logger.debug("submitting {}", body);
+        var res = webClient.postAbs(UriTemplate.of("{+invoker}/oal")
+                        .expandToString(Variables.variables()
+                                .set("invoker", invUrl)))
+                .sendJsonObject(body)
+                .await().indefinitely();
+
+        if (res.statusCode()!=200) {
+            logger.error("Can not create object: code={} body={}", res.statusCode(), res.bodyAsString());
+            throw new RuntimeException("Can not create object");
+        }
+        var resBody = res.bodyAsJsonObject();
+        logger.debug("create object: {}", resBody);
+        if (files!=null) {
+            uploadFiles(files, resBody);
+        }
+        return resBody;
+    }
+
     void uploadFiles(Map<String, File> files,
                      JsonObject constructRes) {
         var urls = constructRes.getJsonObject("uploadUrls").getMap();

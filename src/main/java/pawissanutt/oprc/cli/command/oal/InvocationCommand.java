@@ -30,9 +30,9 @@ public class InvocationCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        var req = webClient.getAbs(UriTemplate.of("{+cds}/oal/{+oal}")
+        var req = webClient.getAbs(UriTemplate.of("{+inv}/oal/{+oal}")
                 .expandToString(Variables.variables()
-                        .set("cds", oaasMixin.getCdsUrl())
+                        .set("inv", oaasMixin.getInvUrl())
                         .set("oal", oal)
                 ));
         req.queryParams()

@@ -47,9 +47,10 @@ public class OaasObjectCreator {
                                    JsonObject data,
                                    Map<String, File> files) {
         var cds = oaasMixin.getCdsUrl();
-        var body = new JsonObject()
-                .put("cls", cls)
-                .put("data", data);
+        var body = JsonObject.of(
+                "cls", cls,
+                "data", data
+        );
         if (files!=null) {
             body.put("keys", files.keySet());
         }
@@ -80,7 +81,11 @@ public class OaasObjectCreator {
         if (files!=null) {
             constructBody.put("keys", files.keySet());
         }
-        var body = JsonObject.of("cls", cls, "fb", fb, "body", constructBody);
+        var body = JsonObject.of(
+                "cls", cls,
+                "fb", fb,
+                "body", constructBody
+        );
         logger.debug("submitting {}", body);
         var res = webClient.postAbs(UriTemplate.of("{+invoker}/oal")
                         .expandToString(Variables.variables()

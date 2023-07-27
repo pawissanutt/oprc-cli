@@ -28,6 +28,13 @@ public class OaasMixin {
     )
     private String invUrl;
 
+    @CommandLine.Option(
+            names = {"--proxy"},
+            description = "The URL of proxy server. Default(ENV:OPRC_PROXY): ${DEFAULT-VALUE}",
+            defaultValue = "${env:OPRC_PROXY}"
+    )
+    private String proxy;
+
     public String getOcUrl() {
         if (ocUrl != null)
             return ocUrl;

@@ -4,7 +4,7 @@ The commandline interface for Oparaca (aka https://github.com/hpcclab/OaaS[OaaS]
 
 [source,bash]
 ----
-jbang app install --name ocli ocli@pawissanutt/oprc-cli
+jbang app install --name ocli --force --fresh ocli@pawissanutt/oprc-cli
 ----
 
 You can check the usage instruction by running `ocli -h`.

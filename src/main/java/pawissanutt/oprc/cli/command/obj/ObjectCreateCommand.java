@@ -2,8 +2,10 @@ package pawissanutt.oprc.cli.command.obj;
 
 import io.vertx.core.json.JsonObject;
 import jakarta.inject.Inject;
+import pawissanutt.oprc.cli.mixin.CommonOutputMixin;
 import pawissanutt.oprc.cli.mixin.OaasMixin;
 import pawissanutt.oprc.cli.service.OaasObjectCreator;
+import pawissanutt.oprc.cli.service.OutputFormatter;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -21,6 +23,8 @@ public class ObjectCreateCommand implements Callable<Integer> {
     @CommandLine.Parameters(defaultValue = "example.record")
     String cls;
 
+    @CommandLine.Mixin
+    CommonOutputMixin commonOutputMixin;
     @CommandLine.Option(names = {"-d", "--data"})
     String data;
 
@@ -32,12 +36,14 @@ public class ObjectCreateCommand implements Callable<Integer> {
 
     @Inject
     OaasObjectCreator oaasObjectCreator;
+    @Inject
+    OutputFormatter outputFormatter;
 
     @Override
     public Integer call() throws Exception {
         oaasObjectCreator.setOaasMixin(oaasMixin);
-        var res = oaasObjectCreator.createObject2(cls, data!=null ? new JsonObject(data):null, fb, files);
-        System.out.println(res);
+        var res = oaasObjectCreator.createObject(cls, data!=null ? new JsonObject(data):null, fb, files);
+        outputFormatter.print(commonOutputMixin.getOutputFormat(), res);
         return 0;
     }
 }

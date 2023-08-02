@@ -34,45 +34,8 @@ public class OaasObjectCreator {
         this.oaasMixin = oaasMixin;
     }
 
-    public Stream<JsonObject> createObjects(String cls,
-                                            JsonObject data,
-                                            Map<String, File> files,
-                                            int count) {
-        return IntStream.range(0, count)
-                .mapToObj(__ -> createObject(cls, data, files));
-    }
-
 
     public JsonObject createObject(String cls,
-                                   JsonObject data,
-                                   Map<String, File> files) {
-        var cds = oaasMixin.getCdsUrl();
-        var body = JsonObject.of(
-                "cls", cls,
-                "data", data
-        );
-        if (files!=null) {
-            body.put("keys", files.keySet());
-        }
-        logger.debug("submitting {}", body);
-        var res = webClient.postAbs(UriTemplate.of("{+cds}/api/object-construct")
-                        .expandToString(Variables.variables()
-                                .set("cds", cds)))
-                .sendJsonObject(body)
-                .await().indefinitely();
-        if (res.statusCode()!=200) {
-            logger.error("Can not create object: code={} body={}", res.statusCode(), res.bodyAsString());
-            throw new RuntimeException("Can not create object");
-        }
-        var resBody = res.bodyAsJsonObject();
-        logger.debug("create object: {}", resBody);
-        if (files!=null) {
-            uploadFiles(files, resBody);
-        }
-        return resBody;
-    }
-
-    public JsonObject createObject2(String cls,
                                     JsonObject data,
                                     String fb,
                                     Map<String, File> files) {

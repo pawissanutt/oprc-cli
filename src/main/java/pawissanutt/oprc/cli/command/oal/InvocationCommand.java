@@ -6,7 +6,9 @@ import io.vertx.mutiny.uritemplate.Variables;
 import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pawissanutt.oprc.cli.mixin.CommonOutputMixin;
 import pawissanutt.oprc.cli.mixin.OaasMixin;
+import pawissanutt.oprc.cli.service.OutputFormatter;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -20,8 +22,12 @@ public class InvocationCommand implements Callable<Integer> {
     private static final Logger logger = LoggerFactory.getLogger(InvocationCommand.class);
     @CommandLine.Mixin
     OaasMixin oaasMixin;
+    @CommandLine.Mixin
+    CommonOutputMixin commonOutputMixin;
     @CommandLine.Parameters()
     String oal;
+    @Inject
+    OutputFormatter outputFormatter;
     @Inject
     WebClient webClient;
 
@@ -47,7 +53,7 @@ public class InvocationCommand implements Callable<Integer> {
         if (oal.contains("/")) {
             System.out.println(res.bodyAsBuffer());
         } else {
-            System.out.println(res.bodyAsJsonObject().encodePrettily());
+            outputFormatter.print(commonOutputMixin.getOutputFormat(), res.bodyAsJsonObject());
         }
         return 0;
     }

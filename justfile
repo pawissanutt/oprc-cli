@@ -1,8 +1,11 @@
 #!/usr/bin/env just --justfile
-
+mvn := "mvnd"
 # maven build without tests
 build:
-    ./mvnw -DskipTests package
+    ./mvnw package
+
+build-no-test:
+  {{mvn}} package -DskipTests
 
 # dependencies tree for compile
 dependencies:
@@ -11,7 +14,6 @@ dependencies:
 # display updates
 updates:
     ./mvnw versions:display-dependency-updates
-
 
 build-native:
     ./mvnw install -Pnative -DskipTests -Dquarkus.native.container-build=true

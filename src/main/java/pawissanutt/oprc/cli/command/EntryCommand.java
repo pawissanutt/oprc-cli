@@ -18,7 +18,10 @@ import picocli.CommandLine.Command;
                 InvocationCommand.class,
                 PackageEntryCommand.class
         },
-        description = "The CLI of Oparaca platform (aka OaaS). Before using it, you should set environment varible 'CDS_URL' to the URL of the content delivery service. \n(ex. export OPRC_CDS=\"http://cds.127.0.0.1.nip.io\")"
+        description = """
+                The CLI of Oparaca platform (aka OaaS). Before using it, you should set environment variable 'CDS_URL' to the URL of the content delivery service.
+                (ex. export OPRC_CDS="http://cds.127.0.0.1.nip.io")
+                """
 )
 public class EntryCommand {
 

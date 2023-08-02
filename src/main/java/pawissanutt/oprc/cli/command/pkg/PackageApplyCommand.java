@@ -7,7 +7,9 @@ import io.vertx.mutiny.uritemplate.Variables;
 import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pawissanutt.oprc.cli.mixin.CommonOutputMixin;
 import pawissanutt.oprc.cli.mixin.OaasMixin;
+import pawissanutt.oprc.cli.service.OutputFormatter;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -26,6 +28,10 @@ public class PackageApplyCommand implements Callable<Integer> {
     @CommandLine.Parameters()
     File pkgFile;
 
+    @CommandLine.Mixin
+    CommonOutputMixin commonOutputMixin;
+    @Inject
+    OutputFormatter outputFormatter;
     @CommandLine.Option(
             names = {"--override-deploy"},
             defaultValue = "false"
@@ -39,9 +45,9 @@ public class PackageApplyCommand implements Callable<Integer> {
     public Integer call() throws Exception {
 
         var pkg = Files.readString(pkgFile.toPath());
-        var res = webClient.postAbs(UriTemplate.of("{+cds}/api/packages")
+        var res = webClient.postAbs(UriTemplate.of("{+oc}/api/packages")
                         .expandToString(Variables.variables()
-                                .set("cds", oaasMixin.getCdsUrl())))
+                                .set("oc", oaasMixin.getOcUrl())))
                 .addQueryParam("overrideDeploy", String.valueOf(overrideDeploy))
                 .putHeader("content-type", "text/x-yaml")
                 .sendBuffer(Buffer.buffer(pkg))
@@ -51,7 +57,8 @@ public class PackageApplyCommand implements Callable<Integer> {
                     res.statusCode(), res.bodyAsString());
             return res.statusCode();
         }
-        System.out.println(res.bodyAsJsonObject().encodePrettily());
+
+        outputFormatter.print(commonOutputMixin.getOutputFormat(), res.bodyAsJsonObject());
         return 0;
     }
 }

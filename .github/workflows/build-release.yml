@@ -4,6 +4,8 @@
 name: Build release
 on:
   push:
+    branches:
+      - '*'
     tags:
       - '*'
 jobs:
@@ -25,12 +27,13 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
         cache: 'maven'
     - name: set version
+      if: startsWith(github.ref, 'refs/tags/v')
       run: mvn versions:set -DnewVersion="${{ env.RELEASE_VERSION }}"
     - name: Build
       run: mvn -B package --file pom.xml
     - name: Release
       uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
+      if: startsWith(github.ref, 'refs/tags/v')
       with:
         draft: false
         generate_release_notes: true

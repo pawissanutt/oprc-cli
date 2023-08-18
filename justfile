@@ -20,3 +20,6 @@ build-native:
 
 jbang-install:
     jbang app install --name=ocli --force target/oprc-cli-1.0-SNAPSHOT-runner.jar
+
+native-window:
+    cmd /c 'call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && mvn package -Dnative'

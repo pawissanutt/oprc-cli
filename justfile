@@ -1,5 +1,7 @@
 #!/usr/bin/env just --justfile
 mvn := "mvnd"
+set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
+
 # maven build without tests
 build:
     ./mvnw package

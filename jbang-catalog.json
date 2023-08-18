@@ -2,7 +2,7 @@
   "catalogs": {},
   "aliases": {
     "ocli": {
-      "script-ref": "https://github.com/pawissanutt/oprc-cli/releases/download/v0.1.9/oprc-cli-v0.1.9-runner.jar"
+      "script-ref": "https://github.com/pawissanutt/oprc-cli/releases/download/v0.1.10/oprc-cli-v0.1.10-runner.jar"
     }
   }
 }

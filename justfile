@@ -2,10 +2,11 @@
 mvn := "mvnd"
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
-# maven build without tests
+# maven build
 build:
     ./mvnw package
 
+# maven build without tests
 build-no-test:
   {{mvn}} package -DskipTests
 
@@ -17,11 +18,15 @@ dependencies:
 updates:
     ./mvnw versions:display-dependency-updates
 
+
 build-native:
     ./mvnw install -Pnative -DskipTests -Dquarkus.native.container-build=true
 
 jbang-install:
     jbang app install --name=ocli --force target/oprc-cli-1.0-SNAPSHOT-runner.jar
 
-native-window:
+build-native-window:
     cmd /c 'call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat" && mvn package -Dnative'
+
+install-native-window: build-native-window
+    cp target/oprc-cli-1.0-SNAPSHOT-runner.exe $HOME/.local/bin/ocli.exe

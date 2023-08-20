@@ -12,6 +12,8 @@ VERSION="v0.1.10"
 curl -Lo ocli https://github.com/pawissanutt/oprc-cli/releases/download/$VERSION/oprc-cli-$VERSION-runner
 sudo chmod +x ocli
 cp ocli $HOME/.local/bin
+# or
+# sudo cp ocli /usr/local/bin
 ----
 
 

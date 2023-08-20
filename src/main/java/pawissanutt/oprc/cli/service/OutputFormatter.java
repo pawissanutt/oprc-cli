@@ -2,6 +2,8 @@ package pawissanutt.oprc.cli.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactoryBuilder;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -18,7 +20,10 @@ public class OutputFormatter {
 
     @Inject
     public OutputFormatter(ObjectMapper mapper) {
-        yamlMapper = mapper.copyWith(new YAMLFactory());
+        yamlMapper = mapper.copyWith(new YAMLFactory()
+                .enable(YAMLGenerator.Feature.MINIMIZE_QUOTES)
+                .disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)
+        );
     }
 
     @SneakyThrows

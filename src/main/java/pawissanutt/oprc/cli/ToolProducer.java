@@ -29,6 +29,10 @@ public class ToolProducer {
         WebClientOptions webClientOptions = new WebClientOptions();
         if (proxyString != null) {
             var proxy = URI.create(proxyString);
+            if (!proxy.isAbsolute()){
+                throw new IllegalStateException("Proxy URL is not valid ("+proxyString+")");
+            }
+
             var type = switch (proxy.getScheme()) {
                 case "socks5" -> ProxyType.SOCKS5;
                 case "socks4" -> ProxyType.SOCKS4;

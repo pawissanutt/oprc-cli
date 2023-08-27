@@ -17,8 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @ApplicationScoped
 public class OaasObjectCreator {
@@ -36,9 +35,9 @@ public class OaasObjectCreator {
 
 
     public JsonObject createObject(String cls,
-                                    JsonObject data,
-                                    String fb,
-                                    Map<String, File> files) {
+                                   JsonObject data,
+                                   String fb,
+                                   Map<String, File> files) {
         var invUrl = oaasMixin.getInvUrl();
         var constructBody = JsonObject.of("data", data);
         if (files!=null) {
@@ -70,7 +69,11 @@ public class OaasObjectCreator {
 
     void uploadFiles(Map<String, File> files,
                      JsonObject constructRes) {
-        var urls = constructRes.getJsonObject("uploadUrls").getMap();
+        var urls = Optional.of(constructRes)
+                .map(o -> o.getJsonObject("body"))
+                .map(o -> o.getJsonObject("uploadUrls"))
+                .map(JsonObject::getMap)
+                .orElseThrow(() -> new IllegalStateException("Cannot retrieve URL for uploading"));
         for (var entry : urls.entrySet()) {
             uploadFile(entry.getKey(), files.get(entry.getKey()), (String) entry.getValue());
         }

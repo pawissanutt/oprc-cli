@@ -36,11 +36,13 @@ public class InvocationCommand implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        var req = webClient.getAbs(UriTemplate.of("{+inv}/oal/{+oal}")
+        var url = UriTemplate.of("{+inv}/oal/{+oal}")
                 .expandToString(Variables.variables()
                         .set("inv", oaasMixin.getInvUrl())
                         .set("oal", oal)
-                ));
+                );
+        logger.debug("request to url [{}]", url);
+        var req = webClient.getAbs(url);
         req.queryParams()
                 .set("async", String.valueOf(async));
         var res = req

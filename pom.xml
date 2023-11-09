@@ -15,7 +15,7 @@
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>3.5.1</quarkus.platform.version>
         <skipITs>true</skipITs>
-        <surefire-plugin.version>3.2.1</surefire-plugin.version>
+        <surefire-plugin.version>3.2.2</surefire-plugin.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
         <tsid-creator.version>5.2.5</tsid-creator.version>
     </properties>

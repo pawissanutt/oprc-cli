@@ -3,12 +3,12 @@ mvn := "mvnd"
 set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 
 # maven build
-build:
-    ./mvnw package
+build options="":
+    ./mvnw "{{options}}" package
 
 # maven build without tests
-build-no-test:
-  {{mvn}} package -DskipTests
+build-no-test options="":
+  {{mvn}} "{{options}}" package -DskipTests
 
 # dependencies tree for compile
 dependencies:
@@ -17,7 +17,6 @@ dependencies:
 # display updates
 updates:
     ./mvnw versions:display-dependency-updates
-
 
 build-native:
     ./mvnw install -Pnative -DskipTests -Dquarkus.native.container-build=true

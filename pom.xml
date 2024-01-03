@@ -17,7 +17,7 @@
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.2.2</surefire-plugin.version>
         <org.projectlombok.version>1.18.30</org.projectlombok.version>
-        <tsid-creator.version>5.2.5</tsid-creator.version>
+        <tsid-creator.version>5.2.6</tsid-creator.version>
     </properties>
     <dependencyManagement>
         <dependencies>
